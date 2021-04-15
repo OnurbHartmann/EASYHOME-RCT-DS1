@@ -19,11 +19,43 @@ Raw data: 7138,424,1108,396,1108,904,631,876,620,386,1109,397,1110,399,1111,399,
 ---
 Button A ON
 ```
-No language indicated, so no syntax highlighting. 
-But let's throw in a <b>tag</b>.
+Decimal: 3649372 (24Bit) Binary: 001101111010111101011100 Tri-State: not applicable PulseLength: 511 microseconds Protocol: 5
+Raw data: 7158,487,21,5,17,16,960,427,1077,357,1134,875,651,861,654,848,644,868,664,346,1136,874,665,337,1117,892,659,844,660,853,647,860,646,364,1129,877,646,365,1129,876,655,857,651,858,642,366,1127,378,1126,
 
+```
+---
 Button A OFF
 ```
-No language indicated, so no syntax highlighting. 
-But let's throw in a <b>tag</b>.
+Decimal: 3151714 (24Bit) Binary: 001100000001011101100010 Tri-State: not applicable PulseLength: 100 microseconds Protocol: 3
+Raw data: 7138,424,1108,396,1108,904,631,876,620,386,1109,397,1110,399,1111,399,1117,390,1099,409,1105,405,1116,893,624,381,1103,909,627,881,626,877,653,357,1107,901,630,879,633,374,1116,392,1102,407,1103,904,631,377,1114,
+```
+
+---
+This is the code to read using rc-switch library
+```
+/*
+  Example for receiving
+  
+  https://github.com/sui77/rc-switch/
+  
+  If you want to visualize a telegram copy the raw data and 
+  paste it into http://test.sui.li/oszi/
+*/
+
+#include <RCSwitch.h>
+
+RCSwitch mySwitch = RCSwitch();
+
+void setup() {
+  Serial.begin(115200);
+  mySwitch.enableReceive(digitalPinToInterrupt(5));  // Receiver on interrupt 0 => that is pin #2
+  Serial.print("booted");
+}
+
+void loop() {
+  if (mySwitch.available()) {
+    output(mySwitch.getReceivedValue(), mySwitch.getReceivedBitlength(), mySwitch.getReceivedDelay(), mySwitch.getReceivedRawdata(),mySwitch.getReceivedProtocol());
+    mySwitch.resetAvailable();
+  }
+}
 ```
